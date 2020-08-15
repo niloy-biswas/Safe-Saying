@@ -1,0 +1,127 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="content-section">
+
+    <!-- Author information -->
+    <div class="media">
+        <img class="d-flex mr-3 rounded-circle article-img" src="{{ object.author.profile.image.url }}" alt="">
+        <div class="media-body">
+            <h4 class="mt-0"><a href="{% url 'user_posts' object.author.username %}">{{ object.author }}</a></h4>
+            <h6 class="mt-0">{{ object.author.email }}</h6>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Post information -->
+    <div>
+        <h1 class="mt-4">{{object.title}}</h1>
+        <p>
+            Posted on {{ object.date_posted|date:"F d, Y" }}
+            {% if object.author == user %}
+            <a class="btn btn-info btn-sm mt-1 mb-1 float-right" href="{% url 'post_update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1 float-right mr-2 "
+                href="{% url 'post_delete' object.id %}">Delete</a>
+            {% endif %}
+        </p>
+    </div>
+    <hr>
+
+    <!-- Preview Image -->
+    <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+    <hr>
+
+    <!-- Post Content -->
+    <p class="lead">{{ object.content|safe|linebreaks }}</p>
+    <hr>
+
+    <!-- Like -->
+    {% if user.is_authenticated %}
+    <div class="text-center">
+        <a id="like" style="cursor: pointer;" class="text-center" data-url="{% url 'like_api' object.pk %}"><i
+                style="color: red" class="
+                like-icon
+                {% if user in object.liked.all %}
+                fas fa-heart fa-3x
+                {% else %}
+                far fa-heart fa-3x
+                {% endif %}
+                " id="like-icon"></i></a>
+        <h6 id="likes_count" style="color: red">{{object.liked.count}}</h6>
+    </div>
+    {% endif %}
+
+
+    <!-- Comment Form -->
+    {% if user.is_authenticated %}
+    <div class="card my-4">
+        <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body">
+            <form method="POST" action="{% url 'add_comment' object.id %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea class="form-control" name="text" rows="3" required></textarea>
+                    <input type="hidden" name="user_id" value="{{user.id}}">
+                </div>
+                <button class="btn btn-primary" type="submit">Comment</button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <a href="{% url 'login' %}" class="btn btn-success btn-lg btn-block mb-4">
+        Sign In for comment and like the post.
+    </a>
+    {% endif %}
+
+    <!-- Single Comments -->
+    {% for comment in post.comments.all %}
+    {% if comment.approved_comment %}
+    <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle article-img" src="{{ comment.author.profile.image.url }}" alt="">
+        <div class="media-body">
+            <h5 class="mt-0"><a href="{% url 'user_posts' comment.author.username %}">{{ comment.author }}</a></h5>
+            {{ comment.text|linebreaks }}
+            <hr>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-secondary" role="alert">
+        No Comment has been posted.
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <!-- For Replay comments -->
+    <!-- <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+        <div class="media-body">
+            <h5 class="mt-0">Commenter Name</h5>
+            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio,
+            vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec
+            lacinia congue felis in faucibus.
+
+            <div class="media mt-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                    <h5 class="mt-0">Commenter Name</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
+                    purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
+                    vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+            </div>
+
+            <div class="media mt-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                    <h5 class="mt-0">Commenter Name</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
+                    purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
+                    vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+            </div>
+
+        </div>
+    </div> -->
+</div>
+{% endblock content %}
