@@ -7,6 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
 from .forms import PostForm
+
+import pandas as pd 
+import pickle
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.externals import joblib
+
 from django.views.generic import (
     CreateView,
     ListView,
@@ -109,12 +116,43 @@ def contact(request):
 
 @login_required
 def add_comment(request, pk):
+    df= pd.read_csv("YoutubeSpamMergedData.csv")
+    df_data = df[["CONTENT","CLASS"]]
+    # Features and Labels
+    df_x = df_data['CONTENT']
+    df_y = df_data['CLASS']
+    # Extract Feature With CountVectorizer
+    corpus = df_x
+    cv = CountVectorizer()
+    X = cv.fit_transform(corpus) # Fit the Data
+    from sklearn.model_selection import train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(X, df_y, test_size=0.33, random_state=42)
+    #Naive Bayes Classifier
+    from sklearn.naive_bayes import MultinomialNB
+    clf = MultinomialNB()
+    clf.fit(X_train,y_train)
+    clf.score(X_test,y_test)
+    #Alternative Usage of Saved Model
+    #ytb_model = open("ytbSpam_model.pkl","rb")
+    #clf = joblib.load(ytb_model)
+
+    
+
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         user = User.objects.get(id=request.POST.get('user_id'))
         text = request.POST.get('text')
-        Comment(author=user, post=post, text=text).save()
-        messages.success(request, "Your comment has been added successfully.")
-    else:
+        data = [text]
+        vect = cv.transform(data).toarray()
+        prediction = clf.predict(vect)
+
+        if prediction == 0:
+            Comment(author=user, post=post, text=text).save()
+            messages.success(request, "Not a spam. Your comment has been added successfully.")
+            
+        elif prediction == 1:
+            messages.warning(request, "Your comment is Deleted because of spamming or Toxic.")
+
+    else:  
         return redirect('post_detail', pk=pk)
     return redirect('post_detail', pk=pk)
