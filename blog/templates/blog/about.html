@@ -1,6 +1,141 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <h1>About Page</h1>
+{% load staticfiles%}
 
-    <p>Safe Saying is application which is identify spam comment on our site and delete those. The purpose of this project is to find out the comments of those spam users. In this work, different techniques used for classification of spam comments with those of normal user comments to improve the classification.</p>
+<h1>About Page</h1>
+
+<link rel="stylesheet" type="text/css" href="{% static 'web/static/css/main.css' %}">
+<br>
+<p>Safe Saying is a Blog where you can post and read other bloger post. Here we use Machine Learning algorithm which will identify spam comment on our site and delete those. The purpose of this project is to find out the comments of those spam users and keep our social media spam free. In this work, different techniques used for classification of spam comments with those of normal user comments to improve the classification.</p>
+<br>
+<br>
+
+<h2>Meet the Team</h2>
+
+
+<div class="row">
+	<div class="column-one">
+		<div class="card">
+			<img src="../media/niloy.jpg" alt="Niloy" style="width:100%">
+			<div class="container">
+				<h2>Niloy Biswas</h2>
+				<p class="title">CEO &amp; Founder</p>
+				<p>Enthusiast learner and passionate about programming.</p>
+				<p>niloy.swe@gmail.com</p>
+				<p><button class="button" onclick="window.location.href='https://www.facebook.com/Niloy.swe';">Contact</button></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="column-one">
+		<div class="card">
+			<img src="../media/tamim.jpg" alt="Tamim" style="width:100%">
+			<div class="container">
+				<h2>Tamim Hasan</h2>
+				<p class="title">Chief Technology officer</p>
+				<p>Some text that describes me lorem ipsum ipsum lorem.</p>
+				<p>tamim35-212@diu.edu.bd</p>
+				<p><button class="button">Contact</button></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="column-two">
+		<div class="card">
+			<img src="../media/mahi.jpg" alt="Mahi" style="width:100%">
+			<div class="container">
+				<h2>Mahmudul Islam</h2>
+				<p class="title">Designer</p>
+				<p>Some text that describes me lorem ipsum ipsum lorem.</p>
+				<p>mahmudul35-218@diu.edu.bd</p>
+				<p><button class="button">Contact</button></p>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="column-two">
+		<div class="card">
+			<img src="../media/tanvir.jpg" alt="Tanvir" style="width:100%">
+			<div class="container">
+				<h2>Tanvir Islam</h2>
+				<p class="title">Chief financial officer</p>
+				<p>Some text that describes me lorem ipsum ipsum lorem.</p>
+				<p>tanvir35-239@diu.edu.bd</p>
+				<p><button class="button">Contact</button></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer>
+  <p>All rights reserved ® 
+  <a href="mailto:niloy.swe@gmail.com">SafeSaying</a></p>
+</footer>
+
+
+
+<style type="text/css">
+	
+  /* Three columns side by side */
+.column-one, .column-two {
+  float: left;
+  width: 50%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+
+/* Display the columns below each other instead of side by side on small screens */
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+}
+
+/* Add some shadows to create a card effect */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Some left and right padding inside the container */
+.container {
+  padding: 0 16px;
+}
+
+/* Clear floats */
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #555;
+}
+
+footer {
+  display: block;
+  text-align: center;
+}
+
+</style>
+
 {% endblock content %}

@@ -73,15 +73,52 @@
         {% endif %}
         {% block content %}{% endblock %}
       </div>
+      
       <div class="col-md-4">
+        <br><br>
         <div class="content-section">
-          <h3>About Us</h3>
-          <p class='text-muted'> Safe Saying is application which is identify spam comment on our site and delete those. The purpose of this project is to find out the comments of those spam users. In this work, different techniques used for classification of spam comments with those of normal user comments to improve the classification. And This is our Team member. 
-            <ul class="list-group">
-                <img src="/media/US.jpg" alt="Our Team Member" style="height: 400px">
+          <h3>Blog Archive</h3>
+          
+          <!-- for blog archive-->
+          <div id='site__side'>
+            ...
+            {% regroup all_posts by posted.year as year_list %}
+        
+            <ul>
+            {% for year in year_list %}
+                <li>{{ year.grouper }}
+                    {% regroup year.list by posted.month as month_list %}
+                    <ul>
+                    {% for month in month_list %}
+                        <li><a href="{% url 'blog:post_archive_month' year.grouper month.grouper %}">{{ month.list.0.posted|date:'b' }} ({{ month.list|length }})</a></li>
+                    {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
             </ul>
-          </p>
+            ...
         </div>
+
+        <!-- For follow us -->
+        <br><br><br>
+        <h2>Follow Us</h2>
+        <div class='widget-content'>
+          <ul class='site-social-networks secondary-2-primary style-default show-title'>
+            <li><a href='http://facebook.com/Niloy.swe'><i class="a2a_button_facebook"></i>facebook</a></li>
+            <li><a href='http://twitter.com/niloy__biswas'><i></i>twitter</a></li>
+            <li><a href='http://instagram.com/ni10y'><i></i>instagram</a></li>
+            <li><a href='https://www.linkedin.com/in/niloy--biswas'><i></i>Linkdin</a></li>
+            <li><a href='https://500px.com/niloybiswas'><i></i>500px</a></li>
+            <li><a href='https://unsplash.com/@niloybiswas'><i></i>unsplash</a></li>
+          </ul>
+
+          <!--For Press-->
+          <br><br><br>
+          <h2 class='title'>Press</h2>
+          <div class='widget-content'>
+            <img src="https://4.bp.blogspot.com/-nE6P6f80Tws/WM_O2ZZKzBI/AAAAAAAAAVI/qkUP8D_SEPI3W1297ENQw1UkJxpn7lZxgCPcB/s1600/add.jpeg"/>
+
+          </div>
       </div>
     </div>
   </main>

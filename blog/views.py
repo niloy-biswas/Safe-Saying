@@ -156,3 +156,14 @@ def add_comment(request, pk):
     else:  
         return redirect('post_detail', pk=pk)
     return redirect('post_detail', pk=pk)
+
+
+#class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+#    model = Comment
+#    success_url = '/'
+#
+#    def test_func(self):
+#        post = self.get_object()
+#        if self.request.user == post.author:
+#            return True
+#        return False

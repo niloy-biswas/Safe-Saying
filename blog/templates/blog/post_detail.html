@@ -92,6 +92,29 @@
     {% endif %}
     {% endfor %}
 
+            <!-- For comment Delete 
+            <p>
+            {{comment.desc}}
+            Posted on {{ object.date_posted|date:"F d, Y" }}
+            {% if comment.author == user %}
+            <a class="btn btn-danger btn-sm mt-1 mb-1 float-right mr-2 "
+                href="{% url 'comment_delete' comment.id %}">Delete</a>
+            {% endif %}
+            </p>-->
+
+
+
+            <!--<p>
+            {{comment.desc}}
+            Posted on {{ object.date_posted|date:"F d, Y" }}
+            {% if comment.author == user %}
+            <a class="btn btn-danger btn-sm mt-1 mb-1 float-right mr-2 "
+                href="{% url 'comment_delete' comment.id %}">Delete</a>
+            {% endif %}
+            </p>-->
+
+
+
     <!-- For Replay comments -->
     <!-- <div class="media mb-4">
         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
